@@ -143,10 +143,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function resizeCanvas() {
-            oceanCanvas.width = window.innerWidth;
-            oceanCanvas.height = window.innerHeight;
-            shipCanvas.width = window.innerWidth;
-            shipCanvas.height = window.innerHeight;
+            const dpr = window.devicePixelRatio || 1;
+            
+            oceanCanvas.width = window.innerWidth * dpr;
+            oceanCanvas.height = window.innerHeight * dpr;
+            oceanCanvas.style.width = `${window.innerWidth}px`;
+            oceanCanvas.style.height = `${window.innerHeight}px`;
+            
+            shipCanvas.width = window.innerWidth * dpr;
+            shipCanvas.height = window.innerHeight * dpr;
+            shipCanvas.style.width = `${window.innerWidth}px`;
+            shipCanvas.style.height = `${window.innerHeight}px`;
             
             if (oceanImages[0]) drawFrame(oceanCtx, oceanImages[0], oceanCanvas);
             if (shipImages[0]) drawFrame(shipCtx, shipImages[0], shipCanvas);
