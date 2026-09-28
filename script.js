@@ -139,6 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
             oceanCanvas.style.width = `${window.innerWidth}px`;
             oceanCanvas.style.height = `${window.innerHeight}px`;
             
+            oceanCtx.imageSmoothingEnabled = true;
+            oceanCtx.imageSmoothingQuality = 'high';
+            
             if (oceanImages[0]) drawFrame(oceanCtx, oceanImages[0], oceanCanvas);
         }
         
