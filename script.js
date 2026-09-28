@@ -159,6 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
             new Promise(res => { shipImages[0].onload = res; if(shipImages[0].complete) res(); })
         ]).then(resizeCanvas);
 
+        const overlay = document.querySelector('.sequence-overlay');
+        
         window.addEventListener('scroll', () => {
             const rect = scrollSequence.getBoundingClientRect();
             let scrollFraction = 0;
@@ -177,16 +179,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (shipImages[shipFrameIndex]) drawFrame(shipCtx, shipImages[shipFrameIndex], shipCanvas);
                 
                 if (scrollFraction > 0.05 && scrollFraction < 0.9) {
-                    title.style.opacity = Math.min(1, (scrollFraction - 0.05) * 5);
-                    title.style.transform = `translate(-50%, calc(-50% - ${scrollFraction * 50}px))`;
-                    subtitle.style.opacity = Math.min(1, (scrollFraction - 0.05) * 5);
-                    subtitle.style.transform = `translate(-50%, calc(-50% - ${scrollFraction * 30}px))`;
+                    overlay.style.opacity = Math.min(1, (scrollFraction - 0.05) * 5);
+                    overlay.style.transform = `translate(-50%, calc(-50% - ${scrollFraction * 50}px))`;
                 } else if (scrollFraction >= 0.9) {
-                    title.style.opacity = Math.max(0, 1 - (scrollFraction - 0.9) * 10);
-                    subtitle.style.opacity = Math.max(0, 1 - (scrollFraction - 0.9) * 10);
+                    overlay.style.opacity = Math.max(0, 1 - (scrollFraction - 0.9) * 10);
                 } else {
-                    title.style.opacity = 0;
-                    subtitle.style.opacity = 0;
+                    overlay.style.opacity = 0;
                 }
             });
         });
