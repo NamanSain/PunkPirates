@@ -105,28 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scrollSequence) {
         const oceanCanvas = document.getElementById('oceanCanvas');
         const oceanCtx = oceanCanvas.getContext('2d');
-        const shipCanvas = document.getElementById('shipCanvas');
-        const shipCtx = shipCanvas.getContext('2d');
         
         const title = document.querySelector('.sequence-title');
         const subtitle = document.querySelector('.sequence-subtitle');
 
-        const oceanFramesCount = 55;
-        const shipFramesCount = 90;
-
+        const oceanFramesCount = 93;
         const oceanImages = [];
-        const shipImages = [];
 
         for (let i = 1; i <= oceanFramesCount; i++) {
             const img = new Image();
             img.src = `assets/OceanSequence/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
             oceanImages.push(img);
-        }
-
-        for (let i = 1; i <= shipFramesCount; i++) {
-            const img = new Image();
-            img.src = `assets/ShipSequence/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
-            shipImages.push(img);
         }
 
         function drawFrame(ctx, img, canvas) {
@@ -150,20 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
             oceanCanvas.style.width = `${window.innerWidth}px`;
             oceanCanvas.style.height = `${window.innerHeight}px`;
             
-            shipCanvas.width = window.innerWidth * dpr;
-            shipCanvas.height = window.innerHeight * dpr;
-            shipCanvas.style.width = `${window.innerWidth}px`;
-            shipCanvas.style.height = `${window.innerHeight}px`;
-            
             if (oceanImages[0]) drawFrame(oceanCtx, oceanImages[0], oceanCanvas);
-            if (shipImages[0]) drawFrame(shipCtx, shipImages[0], shipCanvas);
         }
         
         window.addEventListener('resize', resizeCanvas);
 
         Promise.all([
-            new Promise(res => { oceanImages[0].onload = res; if(oceanImages[0].complete) res(); }),
-            new Promise(res => { shipImages[0].onload = res; if(shipImages[0].complete) res(); })
+            new Promise(res => { oceanImages[0].onload = res; if(oceanImages[0].complete) res(); })
         ]).then(resizeCanvas);
 
         const overlay = document.querySelector('.sequence-overlay');
@@ -180,11 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollFraction = Math.max(0, Math.min(1, scrollFraction));
 
             const oceanFrameIndex = Math.min(oceanFramesCount - 1, Math.floor(scrollFraction * oceanFramesCount));
-            const shipFrameIndex = Math.min(shipFramesCount - 1, Math.floor(scrollFraction * shipFramesCount));
 
             requestAnimationFrame(() => {
                 if (oceanImages[oceanFrameIndex]) drawFrame(oceanCtx, oceanImages[oceanFrameIndex], oceanCanvas);
-                if (shipImages[shipFrameIndex]) drawFrame(shipCtx, shipImages[shipFrameIndex], shipCanvas);
             });
         });
     }

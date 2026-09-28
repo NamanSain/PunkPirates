@@ -287,14 +287,6 @@ a {
     pointer-events: none;
 }
 
-#shipCanvas {
-    z-index: 2;
-}
-
-#oceanCanvas {
-    z-index: 1;
-}
-
 /* Hero Content Section */
 .hero-content-section {
     height: 100vh;
