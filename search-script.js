@@ -74,17 +74,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let markers = [];
 
-    function performSearch(q) {
+    async function performSearch(q) {
         const lowerQ = q.toLowerCase();
         
-        // Very basic mock geocoding based on query
-        if (lowerQ.includes('loguetown')) {
-            map.flyTo([45.4500, 12.3300], 14);
-        } else {
-            map.flyTo([45.4408, 12.3155], 13);
-        }
-
+        // Render mock docks on the left panel (will clear existing markers)
         renderResults(lowerQ);
+        
+        try {
+            // Real geocoding using OpenStreetMap Nominatim API
+            const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`);
+            const data = await response.json();
+            
+            if (data && data.length > 0) {
+                const lat = parseFloat(data[0].lat);
+                const lon = parseFloat(data[0].lon);
+                
+                // Smoothly fly to the real city
+                map.flyTo([lat, lon], 13);
+                
+                // Add a marker for the searched location
+                const cityMarker = L.marker([lat, lon]).addTo(map);
+                cityMarker.bindPopup(`<b>${data[0].name || q}</b><br>Street View Map`).openPopup();
+                markers.push(cityMarker);
+            }
+        } catch (error) {
+            console.error("Geocoding failed:", error);
+        }
     }
 
     function loadMockData() {
