@@ -261,6 +261,68 @@ a {
     color: var(--secondary-color);
 }
 
+/* Scroll Sequence Section */
+.scroll-sequence {
+    position: relative;
+    height: 400vh; /* Determines how long the scroll animation lasts */
+    background-color: #000;
+}
+
+.sticky-container {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sticky-container canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+#shipCanvas {
+    z-index: 2;
+}
+
+#oceanCanvas {
+    z-index: 1;
+}
+
+.sequence-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    text-align: center;
+    color: white;
+    width: 100%;
+    pointer-events: none;
+}
+
+.sequence-title {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    opacity: 0; /* Will animate via JS */
+}
+
+.sequence-subtitle {
+    font-size: 1.2rem;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    opacity: 0;
+}
+
 /* Info Sections */
 .info-section {
     padding: 5rem 5%;

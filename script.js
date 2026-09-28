@@ -100,6 +100,98 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- CANVAS SCROLL SEQUENCE LOGIC ---
+    const scrollSequence = document.getElementById('scrollSequence');
+    if (scrollSequence) {
+        const oceanCanvas = document.getElementById('oceanCanvas');
+        const oceanCtx = oceanCanvas.getContext('2d');
+        const shipCanvas = document.getElementById('shipCanvas');
+        const shipCtx = shipCanvas.getContext('2d');
+        
+        const title = document.querySelector('.sequence-title');
+        const subtitle = document.querySelector('.sequence-subtitle');
+
+        const oceanFramesCount = 55;
+        const shipFramesCount = 90;
+
+        const oceanImages = [];
+        const shipImages = [];
+
+        for (let i = 1; i <= oceanFramesCount; i++) {
+            const img = new Image();
+            img.src = `assets/OceanSequence/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
+            oceanImages.push(img);
+        }
+
+        for (let i = 1; i <= shipFramesCount; i++) {
+            const img = new Image();
+            img.src = `assets/ShipSequence/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
+            shipImages.push(img);
+        }
+
+        function drawFrame(ctx, img, canvas) {
+            if (!img || !img.complete) return;
+            const hRatio = canvas.width / img.width;
+            const vRatio = canvas.height / img.height;
+            const ratio = Math.max(hRatio, vRatio);
+            const centerShift_x = (canvas.width - img.width * ratio) / 2;
+            const centerShift_y = (canvas.height - img.height * ratio) / 2;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, img.width, img.height,
+                          centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+        }
+
+        function resizeCanvas() {
+            oceanCanvas.width = window.innerWidth;
+            oceanCanvas.height = window.innerHeight;
+            shipCanvas.width = window.innerWidth;
+            shipCanvas.height = window.innerHeight;
+            
+            if (oceanImages[0]) drawFrame(oceanCtx, oceanImages[0], oceanCanvas);
+            if (shipImages[0]) drawFrame(shipCtx, shipImages[0], shipCanvas);
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+
+        Promise.all([
+            new Promise(res => { oceanImages[0].onload = res; if(oceanImages[0].complete) res(); }),
+            new Promise(res => { shipImages[0].onload = res; if(shipImages[0].complete) res(); })
+        ]).then(resizeCanvas);
+
+        window.addEventListener('scroll', () => {
+            const rect = scrollSequence.getBoundingClientRect();
+            let scrollFraction = 0;
+            if (rect.top <= 0) {
+                const maxScroll = scrollSequence.offsetHeight - window.innerHeight;
+                scrollFraction = -rect.top / maxScroll;
+            }
+            
+            scrollFraction = Math.max(0, Math.min(1, scrollFraction));
+
+            const oceanFrameIndex = Math.min(oceanFramesCount - 1, Math.floor(scrollFraction * oceanFramesCount));
+            const shipFrameIndex = Math.min(shipFramesCount - 1, Math.floor(scrollFraction * shipFramesCount));
+
+            requestAnimationFrame(() => {
+                if (oceanImages[oceanFrameIndex]) drawFrame(oceanCtx, oceanImages[oceanFrameIndex], oceanCanvas);
+                if (shipImages[shipFrameIndex]) drawFrame(shipCtx, shipImages[shipFrameIndex], shipCanvas);
+                
+                if (scrollFraction > 0.05 && scrollFraction < 0.9) {
+                    title.style.opacity = Math.min(1, (scrollFraction - 0.05) * 5);
+                    title.style.transform = `translate(-50%, calc(-50% - ${scrollFraction * 50}px))`;
+                    subtitle.style.opacity = Math.min(1, (scrollFraction - 0.05) * 5);
+                    subtitle.style.transform = `translate(-50%, calc(-50% - ${scrollFraction * 30}px))`;
+                } else if (scrollFraction >= 0.9) {
+                    title.style.opacity = Math.max(0, 1 - (scrollFraction - 0.9) * 10);
+                    subtitle.style.opacity = Math.max(0, 1 - (scrollFraction - 0.9) * 10);
+                } else {
+                    title.style.opacity = 0;
+                    subtitle.style.opacity = 0;
+                }
+            });
+        });
+    }
+
     // Search Redirection Logic
     const searchInput = document.querySelector('.search-box input');
     const searchBtn = document.querySelector('.search-btn');
