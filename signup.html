@@ -3,140 +3,530 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DockSeven - Sign Up</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>DockSeven - Vessel & Crew Registration</title>
+    <meta name="description" content="Register your vessel, crew, or merchant syndicate with DockSeven. Port clearance for Marines, Pirates, and Grand Line Traders.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(11,75,138,0.8) 0%, rgba(0,0,0,0.6) 100%), url('assets/hero.jpg') center/cover no-repeat;
-            padding-top: 60px;
-        }
-        .auth-card {
-            background: white;
-            padding: 3rem;
-            border-radius: var(--radius-lg);
-            width: 100%;
-            max-width: 450px;
-            box-shadow: var(--shadow-lg);
-            animation: fadeInDown 0.6s ease-out;
-        }
-        .auth-card h2 {
-            font-family: var(--font-heading);
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
-            text-align: center;
-        }
-        .auth-card p {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            font-family: var(--font-body);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(11, 75, 138, 0.1);
-        }
-        .auth-btn {
-            width: 100%;
-            padding: 12px;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-            background-color: #d82a20; /* Red for signup */
-            border-color: #d82a20;
-        }
-        .auth-btn:hover {
-            background-color: #b91c13;
-        }
-        .auth-links {
-            margin-top: 1.5rem;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-        .auth-links a {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        .auth-links a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
-<body>
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="logo" onclick="window.location.href='index.html'">
-            <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<body class="auth-body signup-theme-marine" id="signupBody">
+    <!-- Dynamic Role Background Image (Marine, Pirate, Merchant) -->
+    <div class="dynamic-faction-bg" id="dynamicFactionBg"></div>
+    <div class="auth-bg-ambient" id="signupAmbient"></div>
+
+    <!-- Header Navigation -->
+    <header class="auth-header">
+        <a href="index.html" class="logo auth-nav-link" id="authLogoLink">
+            <svg class="logo-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="2" x2="12" y2="22"></line>
                 <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
             </svg>
             <span>DockSeven</span>
-        </div>
-        <nav class="nav-links">
-            <a href="index.html">Explore</a>
-            <a href="search.html">Search</a>
-            <a href="#">Help</a>
-        </nav>
-        <div class="auth-buttons">
-            <button class="btn btn-outline" onclick="window.location.href='login.html'">Log In</button>
+        </a>
+        <div class="header-actions">
+            <a href="login.html" class="login-nav-link auth-nav-link" style="margin-right: 12px; font-size: 0.9rem; font-weight: 600; color: var(--primary-color);">Already registered? Log In</a>
+            <a href="index.html" class="back-home-btn auth-nav-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Return to Harbor
+            </a>
         </div>
     </header>
 
-    <div class="auth-container">
-        <div class="auth-card">
-            <h2>Join DockSeven</h2>
-            <p>Create an account to book your first berth</p>
-            <form onsubmit="event.preventDefault(); window.location.href='index.html';">
-                <div class="form-group">
-                    <label>I am a...</label>
-                    <select required>
-                        <option value="crew">Pirate / Marine Crew</option>
-                        <option value="shipyard">Shipyard Manager</option>
-                    </select>
+    <!-- Main Content Container -->
+    <main class="signup-container">
+        <!-- Top Step / Faction Selection -->
+        <div class="signup-intro-card">
+            <div class="signup-header-text">
+                <span class="badge" id="factionBadge">Step 1: Choose Your Grand Line Faction</span>
+                <h1 id="signupTitle">Grand Line Port Registration</h1>
+                <p id="signupSubtitle">Select your allegiance below. The harbor manifest, security clearance, and docket requirements will automatically adapt.</p>
+            </div>
+
+            <!-- Faction Selection Buttons -->
+            <div class="faction-selector-grid">
+                <!-- Marine Option -->
+                <div class="faction-card active" id="factionMarineCard" onclick="selectFaction('marine')">
+                    <div class="faction-icon marine-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <div class="faction-details">
+                        <div class="faction-title-row">
+                            <h3>World Government Marine</h3>
+                            <span class="faction-pill pill-marine">正義 Absolute Justice</span>
+                        </div>
+                        <p>Naval Officers, Admirals, Headquarters inspectors & patrol battleships.</p>
+                    </div>
+                    <div class="faction-check">✓</div>
                 </div>
-                <div class="form-group">
-                    <label>Full Name or Crew Name</label>
-                    <input type="text" required placeholder="Monkey D. Luffy">
+
+                <!-- Pirate Option -->
+                <div class="faction-card" id="factionPirateCard" onclick="selectFaction('pirate')">
+                    <div class="faction-icon pirate-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="10" r="5"></circle>
+                            <line x1="4" y1="20" x2="20" y2="4"></line>
+                            <line x1="20" y1="20" x2="4" y2="4"></line>
+                        </svg>
+                    </div>
+                    <div class="faction-details">
+                        <div class="faction-title-row">
+                            <h3>Grand Line Pirate Crew</h3>
+                            <span class="faction-pill pill-pirate">🏴‍☠️ Bounty Hunter Target</span>
+                        </div>
+                        <p>Captains, navigators, shipwrights, and crews seeking dock berths & repairs.</p>
+                    </div>
+                    <div class="faction-check">✓</div>
                 </div>
-                <div class="form-group">
-                    <label>Email / Den Den Mushi ID</label>
-                    <input type="email" required placeholder="pirate@grandline.com">
+
+                <!-- Merchant Option -->
+                <div class="faction-card" id="factionMerchantCard" onclick="selectFaction('merchant')">
+                    <div class="faction-icon merchant-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <line x1="12" y1="7" x2="12" y2="17"></line>
+                            <line x1="9" y1="10" x2="15" y2="10"></line>
+                            <line x1="9" y1="14" x2="15" y2="14"></line>
+                        </svg>
+                    </div>
+                    <div class="faction-details">
+                        <div class="faction-title-row">
+                            <h3>Merchant & Civilian Guild</h3>
+                            <span class="faction-pill pill-merchant">⚖️ Licensed Trade</span>
+                        </div>
+                        <p>Traders, shipwrights, craftsmen, barkeepers, and inter-island commerce fleets.</p>
+                    </div>
+                    <div class="faction-check">✓</div>
                 </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" required placeholder="Create a strong password">
-                </div>
-                <button type="submit" class="btn btn-primary auth-btn">Sign Up</button>
-            </form>
-            <div class="auth-links">
-                Already have an account? <a href="login.html">Log in</a>
+            </div>
+
+            <!-- Quick Auto-Fill Demo bar -->
+            <div class="demo-autofill-bar">
+                <span class="autofill-label">⚡ Fill Sample Dossier:</span>
+                <button type="button" class="btn-sample-fill" onclick="autoFillSample('smoker')">🛡️ Marine Smoker</button>
+                <button type="button" class="btn-sample-fill" onclick="autoFillSample('luffy')">🏴‍☠️ Pirate Luffy</button>
+                <button type="button" class="btn-sample-fill" onclick="autoFillSample('tom')">⚖️ Master Tom (Shipwright)</button>
             </div>
         </div>
+
+        <!-- Registration Form Card -->
+        <div class="signup-form-card">
+            <form id="signupForm" onsubmit="handleSignupSubmit(event)">
+                <input type="hidden" id="selectedFaction" name="faction" value="marine">
+
+                <!-- Section 1: Personal & Identity Details -->
+                <div class="form-section-group">
+                    <div class="section-title">
+                        <span class="section-number">01</span>
+                        <div>
+                            <h3>Identity & Biological Classification</h3>
+                            <p>Official identification recorded in the Grand Line Registry.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <!-- First Name -->
+                        <div class="form-group">
+                            <label for="firstName">First Name <span class="req">*</span></label>
+                            <input type="text" id="firstName" required placeholder="e.g. Monkey D. / Tashigi">
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="form-group">
+                            <label for="lastName">Last Name <span class="req">*</span></label>
+                            <input type="text" id="lastName" required placeholder="e.g. Luffy / None">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <!-- Epithet / Moniker -->
+                        <div class="form-group">
+                            <label for="epithet">Epithet / Moniker <span class="opt">(If any)</span></label>
+                            <input type="text" id="epithet" placeholder="e.g. Straw Hat / White Hunter">
+                        </div>
+
+                        <!-- Age -->
+                        <div class="form-group">
+                            <label for="age">Age <span class="req">*</span></label>
+                            <input type="number" id="age" required min="1" max="500" placeholder="e.g. 19">
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="form-group">
+                            <label for="gender">Gender <span class="req">*</span></label>
+                            <select id="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other / Non-Binary</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <!-- Species -->
+                        <div class="form-group">
+                            <label for="species">Species <span class="req">*</span></label>
+                            <select id="species" required>
+                                <option value="Human" selected>Human</option>
+                                <option value="Fish-man">Fish-man</option>
+                                <option value="Mink">Mink Tribe</option>
+                                <option value="Giant">Giant</option>
+                                <option value="Cyborg">Cyborg</option>
+                                <option value="Lunarian">Lunarian</option>
+                                <option value="Sky Islander">Sky Islander (Birkan/Skypiean)</option>
+                                <option value="Tontatta / Dwarf">Tontatta / Dwarf</option>
+                                <option value="Longleg / Longarm">Longleg / Longarm</option>
+                                <option value="Three-Eye">Three-Eye Tribe</option>
+                            </select>
+                        </div>
+
+                        <!-- Home Island / Kingdom -->
+                        <div class="form-group">
+                            <label for="homeIsland">Home Island / Kingdom <span class="req">*</span></label>
+                            <input type="text" id="homeIsland" required placeholder="e.g. Water 7, Foosha Village, Loguetown">
+                        </div>
+
+                        <!-- Sea of Origin -->
+                        <div class="form-group">
+                            <label for="seaOfOrigin">Sea of Origin <span class="req">*</span></label>
+                            <select id="seaOfOrigin" required>
+                                <option value="East Blue" selected>East Blue</option>
+                                <option value="West Blue">West Blue</option>
+                                <option value="North Blue">North Blue</option>
+                                <option value="South Blue">South Blue</option>
+                                <option value="Grand Line (Paradise)">Grand Line (Paradise)</option>
+                                <option value="New World">New World</option>
+                                <option value="Calm Belt">Calm Belt</option>
+                                <option value="Sky Island (White Sea)">Sky Island (White Sea)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Universal Ship & Vessel Registration -->
+                <div class="form-section-group">
+                    <div class="section-title">
+                        <span class="section-number">02</span>
+                        <div>
+                            <h3>Vessel & Docking Manifest</h3>
+                            <p>Required for all vessels requesting entry or berth assignment at Water 7.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <!-- Ship Name (Common for all) -->
+                        <div class="form-group">
+                            <label for="shipName"><span id="shipLabelPrefix">Marine Warship / Vessel</span> Name <span class="req">*</span></label>
+                            <input type="text" id="shipName" required placeholder="e.g. Thousand Sunny, Great Eirik, Sea Train">
+                        </div>
+
+                        <!-- Ship Type / Class -->
+                        <div class="form-group">
+                            <label for="shipType">Vessel Hull Classification <span class="req">*</span></label>
+                            <select id="shipType" required>
+                                <option value="Sloop / Small Caravel">Sloop / Small Caravel (1-10 Crew)</option>
+                                <option value="Brigantine / Medium Galleon" selected>Brigantine / Medium Galleon (10-50 Crew)</option>
+                                <option value="Heavy Warship / Flagship">Heavy Warship / Dreadnought (50-200 Crew)</option>
+                                <option value="Adam Wood Sloop">Adam Wood Reinforced Hull</option>
+                                <option value="Steam Paddle / Sea Train">Paddlewheel / Steam Propulsion</option>
+                                <option value="Submersible Ship">Coated Submersible Vessel</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Dynamic Faction-Specific Dossier -->
+                <!-- 3A: MARINE SPECIFIC FIELDS -->
+                <div class="form-section-group faction-section" id="marineSection">
+                    <div class="section-title">
+                        <span class="section-number faction-badge-num marine-bg">03</span>
+                        <div>
+                            <h3>Marine Enlistment & Commission Dossier</h3>
+                            <p>Verified through World Government Justice Records.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <!-- Marine Rank -->
+                        <div class="form-group">
+                            <label for="marineRank">Official Marine Rank <span class="req">*</span></label>
+                            <select id="marineRank">
+                                <option value="Chore Boy">Chore Boy / Recruit</option>
+                                <option value="Seaman">Seaman</option>
+                                <option value="Lieutenant">Lieutenant</option>
+                                <option value="Commander">Commander</option>
+                                <option value="Captain" selected>Captain</option>
+                                <option value="Commodore">Commodore</option>
+                                <option value="Rear Admiral">Rear Admiral</option>
+                                <option value="Vice Admiral">Vice Admiral</option>
+                                <option value="Admiral">Admiral</option>
+                                <option value="Fleet Admiral">Fleet Admiral</option>
+                            </select>
+                        </div>
+
+                        <!-- Marine Base / Division -->
+                        <div class="form-group">
+                            <label for="marineBase">Stationed Base / Branch <span class="req">*</span></label>
+                            <input type="text" id="marineBase" placeholder="e.g. G-5 Division, Marineford HQ, Branch 153">
+                        </div>
+
+                        <!-- Marine ID / Enlistment Serial -->
+                        <div class="form-group">
+                            <label for="marineId">Enlistment Serial Code <span class="req">*</span></label>
+                            <input type="text" id="marineId" placeholder="e.g. M-8849-NAVY">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <!-- Justice Philosophy -->
+                        <div class="form-group">
+                            <label for="justiceType">Justice Philosophy</label>
+                            <select id="justiceType">
+                                <option value="Moral Justice">Moral Justice (Aokiji / Smoker / Fujitora)</option>
+                                <option value="Absolute Justice">Absolute Justice (Akainu / Fleet Command)</option>
+                                <option value="Lazy Justice">Lazy Justice / Flexible Protocol</option>
+                                <option value="Unclear Justice">Unclear Justice (Kizaru)</option>
+                                <option value="Thorough Justice">Thorough Justice</option>
+                            </select>
+                        </div>
+
+                        <!-- Marine Ship Class Specification -->
+                        <div class="form-group">
+                            <label for="marineShipClass">Navy Vessel Class</label>
+                            <select id="marineShipClass">
+                                <option value="Standard Battleship">Standard Navy Cruiser (Twin Cannons)</option>
+                                <option value="Buster Call Heavy Dreadnought">Buster Call Heavy Warship</option>
+                                <option value="Seastone Bottom Vessel">Calm Belt Seastone Hull Battleship</option>
+                                <option value="Fast Pursuit Sloop">Fast Pursuit Patrol Sloop</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3B: PIRATE SPECIFIC FIELDS -->
+                <div class="form-section-group faction-section hidden" id="pirateSection">
+                    <div class="section-title">
+                        <span class="section-number faction-badge-num pirate-bg">03</span>
+                        <div>
+                            <h3>Pirate Manifest & Grand Line Bounty Dossier</h3>
+                            <p>Recorded for Galley-La Shipyard security & berth defense.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <!-- Captain / Crew Name -->
+                        <div class="form-group">
+                            <label for="crewName">Captain / Crew Name <span class="req">*</span></label>
+                            <input type="text" id="crewName" placeholder="e.g. Straw Hat Pirates / Heart Pirates">
+                        </div>
+
+                        <!-- Current Bounty -->
+                        <div class="form-group">
+                            <label for="bountyAmount">Current Bounty (฿ Berry) <span class="req">*</span></label>
+                            <input type="text" id="bountyAmount" placeholder="e.g. ฿ 3,000,000,000">
+                        </div>
+
+                        <!-- Role in Crew -->
+                        <div class="form-group">
+                            <label for="crewRole">Role in Crew <span class="req">*</span></label>
+                            <select id="crewRole">
+                                <option value="Captain" selected>Captain</option>
+                                <option value="Vice-Captain / First Mate">Vice-Captain / First Mate</option>
+                                <option value="Sniper">Sniper</option>
+                                <option value="Navigator">Navigator</option>
+                                <option value="Cook">Cook</option>
+                                <option value="Shipwright">Shipwright</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Musician">Musician</option>
+                                <option value="Helmsman">Helmsman</option>
+                                <option value="Archaeologist">Archaeologist</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <!-- Jolly Roger Design -->
+                        <div class="form-group">
+                            <label for="jollyRoger">Jolly Roger Design <span class="opt">(Brief Description)</span></label>
+                            <input type="text" id="jollyRoger" placeholder="e.g. Skull wearing a yellow straw hat with crossed bones">
+                        </div>
+
+                        <!-- Devil Fruit / Combat Ability -->
+                        <div class="form-group">
+                            <label for="devilFruit">Combat Ability / Devil Fruit</label>
+                            <input type="text" id="devilFruit" placeholder="e.g. Gomu Gomu no Mi / Three-Sword Style">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3C: MERCHANT & CIVILIAN SPECIFIC FIELDS -->
+                <div class="form-section-group faction-section hidden" id="merchantSection">
+                    <div class="section-title">
+                        <span class="section-number faction-badge-num merchant-bg">03</span>
+                        <div>
+                            <h3>Trade Guild & Commercial License</h3>
+                            <p>Certified by the Water 7 Chamber of Commerce & World Government Guilds.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <!-- Legal Occupation -->
+                        <div class="form-group">
+                            <label for="legalOccupation">Legal Occupation <span class="req">*</span></label>
+                            <select id="legalOccupation">
+                                <option value="Merchant" selected>Merchant / Trader</option>
+                                <option value="Bartender / Restaurateur">Bartender / Restaurateur</option>
+                                <option value="Blacksmith / Arms Dealer">Blacksmith / Artisan</option>
+                                <option value="Farmer / Livestock">Farmer / Livestock</option>
+                                <option value="Shipwright / Carpenter">Shipwright / Carpenter</option>
+                                <option value="Archaeologist / Scholar">Archaeologist / Scholar</option>
+                                <option value="Transponder Broker">Den Den Mushi Broker</option>
+                                <option value="Log Pose Navigator">Log Pose & Cartographer</option>
+                            </select>
+                        </div>
+
+                        <!-- Company / Store Name -->
+                        <div class="form-group">
+                            <label for="companyName">Company / Store Name <span class="req">*</span></label>
+                            <input type="text" id="companyName" placeholder="e.g. Galley-La Trade Co., Baratie">
+                        </div>
+
+                        <!-- Primary Trade Goods -->
+                        <div class="form-group">
+                            <label for="tradeGoods">Primary Trade Goods <span class="req">*</span></label>
+                            <select id="tradeGoods">
+                                <option value="Spices & Exotic Produce" selected>Spices & Exotic Produce</option>
+                                <option value="Timber & Adam Wood">Timber & Adam Wood</option>
+                                <option value="Sea Kings & Gourmet Meats">Sea Kings & Gourmet Meats</option>
+                                <option value="Weapons & Armaments">Weapons & Armaments</option>
+                                <option value="Textiles & Silks">Textiles & Silks</option>
+                                <option value="Log Poses & Dials">Log Poses & Sky Dials</option>
+                                <option value="Ship Supplies & Coal">Ship Supplies & Water 7 Coal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <!-- World Government Permit ID -->
+                        <div class="form-group">
+                            <label for="travelPermit">WG Travel Permit ID <span class="req">*</span></label>
+                            <input type="text" id="travelPermit" placeholder="e.g. WG-TRADE-9981-PASS">
+                        </div>
+
+                        <!-- Local Protection / Affiliation -->
+                        <div class="form-group">
+                            <label for="protectionAffiliation">Local Protection / Affiliation <span class="req">*</span></label>
+                            <select id="protectionAffiliation">
+                                <option value="Marine Protected Island" selected>Marine Protected Island</option>
+                                <option value="World Government Tributary">World Government Tributary</option>
+                                <option value="Independent Kingdom">Independent Kingdom (e.g. Alabasta, Wano)</option>
+                                <option value="Underworld / Neutral Free Port">Underworld / Neutral Free Port</option>
+                            </select>
+                        </div>
+
+                        <!-- Heavenly Tribute Tax Status -->
+                        <div class="form-group">
+                            <label for="tributeTaxStatus">Heavenly Tribute Tax Status <span class="req">*</span></label>
+                            <select id="tributeTaxStatus">
+                                <option value="Paid" selected>Paid (In Good Standing)</option>
+                                <option value="Exempt">Exempt (Diplomatic Guild / Free City)</option>
+                                <option value="Defaulter">Defaulter / Pending Investigation</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Transponder Security Credentials -->
+                <div class="form-section-group">
+                    <div class="section-title">
+                        <span class="section-number">04</span>
+                        <div>
+                            <h3>Transponder Passkey & Den Den Credentials</h3>
+                            <p>Used to login and securely coordinate with Galley-La dockmasters.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <!-- Transponder Email -->
+                        <div class="form-group">
+                            <label for="signupEmail">Den Den Mushi Transponder Email <span class="req">*</span></label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                <input type="email" id="signupEmail" required placeholder="e.g. captain@vessel.sea">
+                            </div>
+                        </div>
+
+                        <!-- Passkey -->
+                        <div class="form-group">
+                            <label for="signupPasskey">Loguetown Master Passkey <span class="req">*</span></label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                <input type="password" id="signupPasskey" required minlength="6" placeholder="Choose a secure passkey">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms checkbox -->
+                    <div class="form-options" style="margin-top: 10px;">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" id="termsCheck" required checked>
+                            <span class="checkbox-indicator"></span>
+                            <span class="checkbox-label">I agree to abide by Water 7 Galley-La Port Security regulations and berth bylaws.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Alert Message Banner -->
+                <div id="signupAlert" class="auth-alert hidden"></div>
+
+                <!-- Submit Button -->
+                <div class="signup-submit-wrap">
+                    <button type="submit" id="submitSignupBtn" class="btn btn-primary btn-signup">
+                        <span class="btn-text">Register Vessel & Clear for Docking</span>
+                        <span class="btn-spinner hidden"></span>
+                        <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                    <p class="terms-note">Upon registration, an encrypted transponder token is granted and stored for instant harbor clearance.</p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Success Modal Card for Clearance Badge -->
+    <div id="clearanceModal" class="clearance-modal hidden">
+        <div class="clearance-modal-card">
+            <div class="clearance-stamp" id="modalStamp">APPROVED</div>
+            <div class="modal-badge-icon" id="modalBadgeIcon">⚓</div>
+            <h2 id="modalTitle">Port Clearance Certificate Issued</h2>
+            <p id="modalMsg">Your vessel has been successfully registered into the Water 7 Galley-La Harbor Log.</p>
+            
+            <div class="clearance-details-box" id="modalDetails">
+                <!-- Injected via JS -->
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" onclick="proceedToHarbor()">Enter Water 7 Harbor</button>
+        </div>
     </div>
+
+    <!-- Notification Toast -->
+    <div id="authToast" class="auth-toast"></div>
+
+    <script src="script.js"></script>
+    <script src="signup.js"></script>
 </body>
 </html>
