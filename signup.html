@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DockSeven - Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(11,75,138,0.8) 0%, rgba(0,0,0,0.6) 100%), url('assets/hero.jpg') center/cover no-repeat;
+            padding-top: 60px;
+        }
+        .auth-card {
+            background: white;
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInDown 0.6s ease-out;
+        }
+        .auth-card h2 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        .auth-card p {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(11, 75, 138, 0.1);
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            background-color: #d82a20; /* Red for signup */
+            border-color: #d82a20;
+        }
+        .auth-btn:hover {
+            background-color: #b91c13;
+        }
+        .auth-links {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .auth-links a {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="2" x2="12" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>DockSeven</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Explore</a>
+            <a href="search.html">Search</a>
+            <a href="#">Help</a>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn btn-outline" onclick="window.location.href='login.html'">Log In</button>
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Join DockSeven</h2>
+            <p>Create an account to book your first berth</p>
+            <form onsubmit="event.preventDefault(); window.location.href='index.html';">
+                <div class="form-group">
+                    <label>I am a...</label>
+                    <select required>
+                        <option value="crew">Pirate / Marine Crew</option>
+                        <option value="shipyard">Shipyard Manager</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Full Name or Crew Name</label>
+                    <input type="text" required placeholder="Monkey D. Luffy">
+                </div>
+                <div class="form-group">
+                    <label>Email / Den Den Mushi ID</label>
+                    <input type="email" required placeholder="pirate@grandline.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" required placeholder="Create a strong password">
+                </div>
+                <button type="submit" class="btn btn-primary auth-btn">Sign Up</button>
+            </form>
+            <div class="auth-links">
+                Already have an account? <a href="login.html">Log in</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
