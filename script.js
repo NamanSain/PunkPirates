@@ -172,6 +172,58 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- SHIPYARD CARD CANVAS SCROLL SEQUENCE ---
+    const shipyardCanvas = document.getElementById('shipyardCanvas');
+    if (shipyardCanvas) {
+        const shipCtx = shipyardCanvas.getContext('2d');
+        const shipFramesCount = 90;
+        const shipImages = [];
+        
+        for (let i = 1; i <= shipFramesCount; i++) {
+            const img = new Image();
+            img.src = `assets/ShipSequence/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
+            shipImages.push(img);
+        }
+
+        shipyardCanvas.width = 1200;
+        shipyardCanvas.height = 1200;
+        shipCtx.imageSmoothingEnabled = true;
+        shipCtx.imageSmoothingQuality = 'high';
+
+        function drawShipFrame(img) {
+            if (!img || !img.complete) return;
+            const hRatio = shipyardCanvas.width / img.width;
+            const vRatio = shipyardCanvas.height / img.height;
+            const ratio = Math.max(hRatio, vRatio);
+            const centerShift_x = (shipyardCanvas.width - img.width * ratio) / 2;
+            const centerShift_y = (shipyardCanvas.height - img.height * ratio) / 2;
+            
+            shipCtx.clearRect(0, 0, shipyardCanvas.width, shipyardCanvas.height);
+            shipCtx.drawImage(img, 0, 0, img.width, img.height,
+                          centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+        }
+
+        Promise.all([
+            new Promise(res => { shipImages[0].onload = res; if(shipImages[0].complete) res(); })
+        ]).then(() => {
+            drawShipFrame(shipImages[0]);
+        });
+
+        window.addEventListener('scroll', () => {
+            const rect = shipyardCanvas.getBoundingClientRect();
+            const totalScrollDistance = window.innerHeight + rect.height;
+            let fraction = (window.innerHeight - rect.top) / totalScrollDistance;
+            fraction = Math.max(0, Math.min(1, fraction));
+
+            const frameIndex = Math.min(shipFramesCount - 1, Math.floor(fraction * shipFramesCount));
+            if (shipImages[frameIndex]) {
+                requestAnimationFrame(() => {
+                    drawShipFrame(shipImages[frameIndex]);
+                });
+            }
+        });
+    }
+
     // Search Redirection Logic
     const searchInput = document.querySelector('.search-box input');
     const searchBtn = document.querySelector('.search-btn');
