@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DockSeven - Search Berths</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="search.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+<body class="search-page-body">
+    <!-- Navbar -->
+    <header class="navbar dark-nav">
+        <div class="logo" onclick="window.location.href='index.html'">
+            <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="2" x2="12" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>DockSeven</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#">Explore</a>
+            <a href="search.html" class="active">Search</a>
+            <div class="dropdown">
+                <a href="#">For Crews <span class="arrow">▼</span></a>
+            </div>
+            <div class="dropdown">
+                <a href="#">For Shipyards <span class="arrow">▼</span></a>
+            </div>
+            <a href="#">Help</a>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn btn-outline" onclick="window.location.href='login.html'">Log In</button>
+            <button class="btn btn-primary" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <!-- Left Panel -->
+        <aside class="search-sidebar">
+            <div class="search-controls">
+                <div class="input-group">
+                    <input type="text" id="locationInput" placeholder="Location (e.g. Water 7, Loguetown)">
+                    <button class="btn btn-primary" id="searchUpdateBtn">Find Docks</button>
+                </div>
+                
+                <div class="date-group">
+                    <input type="date" id="arriveDate" placeholder="Arrive">
+                    <input type="date" id="departDate" placeholder="Depart">
+                </div>
+
+                <div class="checkbox-group">
+                    <label><input type="checkbox" checked> Dock</label>
+                    <label><input type="checkbox"> Mooring</label>
+                    <label><input type="checkbox"> Day Trip</label>
+                </div>
+
+                <button class="btn btn-outline w-100" style="margin-top: 15px; width: 100%;">Filter by Services, Shipwrights & Discounts</button>
+            </div>
+
+            <div class="search-results">
+                <div class="no-results-msg" id="resultsMsg">
+                    <strong>Loading docks...</strong> Move the map, search, or adjust your filters to find berths.
+                </div>
+                <!-- Results will be injected here -->
+                <div id="resultsList" class="results-list"></div>
+            </div>
+        </aside>
+
+        <!-- Right Panel - Map -->
+        <main class="map-container">
+            <div id="map"></div>
+            <div class="map-overlay-controls">
+                <div class="view-toggle">
+                    <label><input type="radio" name="mapView" value="streets" checked> Streets</label>
+                    <label><input type="radio" name="mapView" value="satellite"> Satellite</label>
+                </div>
+                <div class="search-move-toggle">
+                    <label><input type="checkbox" checked> Search as I move the map</label>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="search-script.js"></script>
+</body>
+</html>

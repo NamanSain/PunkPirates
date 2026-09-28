@@ -1,0 +1,230 @@
+/* Search Page Specific Styles */
+.search-page-body {
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.dark-nav {
+    background: #1a202c !important; /* Dark navy for search page navbar like Dockwa */
+    border-bottom: none !important;
+}
+
+.dark-nav .logo {
+    color: white !important;
+}
+
+.dark-nav .nav-links a {
+    color: #cbd5e1 !important;
+}
+
+.dark-nav .nav-links a.active,
+.dark-nav .nav-links a:hover {
+    color: white !important;
+}
+
+.dark-nav .btn-outline {
+    border-color: #cbd5e1;
+    color: white;
+}
+
+.dark-nav .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+.dark-nav .btn-primary {
+    background-color: #d82a20; /* Red Sign Up button like Dockwa */
+}
+
+.dark-nav .btn-primary:hover {
+    background-color: #b91c13;
+}
+
+.search-container {
+    display: flex;
+    flex: 1;
+    margin-top: 60px; /* Adjust based on navbar height */
+    height: calc(100vh - 60px);
+}
+
+.search-sidebar {
+    width: 450px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.search-controls {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.input-group .btn {
+    padding: 10px 20px;
+    background-color: #3b82f6; /* Blue find marinas button */
+}
+
+.date-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.date-group input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    color: var(--text-muted);
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.search-results {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    background-color: #f8fafc;
+}
+
+.no-results-msg {
+    background-color: #fef3c7;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* Map specific styles */
+.map-container {
+    flex: 1;
+    position: relative;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.map-overlay-controls {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.view-toggle {
+    background: white;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+    font-size: 0.85rem;
+}
+
+.view-toggle label {
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.search-move-toggle {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    pointer-events: auto;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Result Card */
+.dock-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 15px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    gap: 15px;
+}
+
+.dock-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.dock-card-img {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+}
+
+.dock-card-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.dock-card-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}

@@ -53,4 +53,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 150);
         });
     });
+
+    // Search Redirection Logic
+    const searchInput = document.querySelector('.search-box input');
+    const searchBtn = document.querySelector('.search-btn');
+
+    if (searchInput && searchBtn) {
+        const performSearch = () => {
+            const query = encodeURIComponent(searchInput.value.trim());
+            window.location.href = `search.html?q=${query}`;
+        };
+
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
 });
