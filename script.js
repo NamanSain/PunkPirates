@@ -99,18 +99,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 150);
         });
     });
+    // --- LENIS SMOOTH SCROLL ---
+    if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            touchMultiplier: 2,
+        });
+        
+        // Connect Lenis to GSAP ScrollTrigger
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add((time) => lenis.raf(time * 1000));
+            gsap.ticker.lagSmoothing(0);
+        }
 
-    // --- CANVAS SCROLL SEQUENCE LOGIC ---
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+    }
+
+    // --- CANVAS SCROLL SEQUENCE LOGIC (GSAP powered) ---
     const scrollSequence = document.getElementById('scrollSequence');
     if (scrollSequence) {
         const oceanCanvas = document.getElementById('oceanCanvas');
         const oceanCtx = oceanCanvas.getContext('2d');
-        
-        const title = document.querySelector('.sequence-title');
-        const subtitle = document.querySelector('.sequence-subtitle');
 
         const oceanFramesCount = 93;
         const oceanImages = [];
+        let currentOceanFrame = { value: 0 };
 
         for (let i = 1; i <= oceanFramesCount; i++) {
             const img = new Image();
@@ -123,61 +145,102 @@ document.addEventListener('DOMContentLoaded', () => {
             const hRatio = canvas.width / img.width;
             const vRatio = canvas.height / img.height;
             const ratio = Math.max(hRatio, vRatio);
-            const centerShift_x = (canvas.width - img.width * ratio) / 2;
-            const centerShift_y = (canvas.height - img.height * ratio) / 2;
+            const cx = (canvas.width - img.width * ratio) / 2;
+            const cy = (canvas.height - img.height * ratio) / 2;
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(img, 0, 0, img.width, img.height,
-                          centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+            ctx.drawImage(img, 0, 0, img.width, img.height, cx, cy, img.width * ratio, img.height * ratio);
         }
 
         function resizeCanvas() {
             const dpr = window.devicePixelRatio || 1;
-            
             oceanCanvas.width = window.innerWidth * dpr;
             oceanCanvas.height = window.innerHeight * dpr;
             oceanCanvas.style.width = `${window.innerWidth}px`;
             oceanCanvas.style.height = `${window.innerHeight}px`;
-            
             oceanCtx.imageSmoothingEnabled = true;
             oceanCtx.imageSmoothingQuality = 'high';
-            
             if (oceanImages[0]) drawFrame(oceanCtx, oceanImages[0], oceanCanvas);
         }
         
         window.addEventListener('resize', resizeCanvas);
-
+        
         Promise.all([
             new Promise(res => { oceanImages[0].onload = res; if(oceanImages[0].complete) res(); })
         ]).then(resizeCanvas);
 
-        const overlay = document.querySelector('.sequence-overlay');
-        
-        window.addEventListener('scroll', () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-            
-            let scrollFraction = 0;
-            if (maxScroll > 0) {
-                scrollFraction = scrollTop / maxScroll;
-            }
-            
-            scrollFraction = Math.max(0, Math.min(1, scrollFraction));
-
-            const oceanFrameIndex = Math.min(oceanFramesCount - 1, Math.floor(scrollFraction * oceanFramesCount));
-
-            requestAnimationFrame(() => {
-                if (oceanImages[oceanFrameIndex]) drawFrame(oceanCtx, oceanImages[oceanFrameIndex], oceanCanvas);
+        // Use GSAP ScrollTrigger for smooth frame interpolation
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.to(currentOceanFrame, {
+                value: oceanFramesCount - 1,
+                snap: 'value',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: document.body,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.5,  // 0.5s smooth catch-up
+                },
+                onUpdate: () => {
+                    const idx = Math.round(currentOceanFrame.value);
+                    if (oceanImages[idx]) drawFrame(oceanCtx, oceanImages[idx], oceanCanvas);
+                }
             });
-        });
+
+            // Hero overlay fade out on scroll
+            const overlay = document.querySelector('.sequence-overlay');
+            if (overlay) {
+                gsap.to(overlay, {
+                    opacity: 0,
+                    y: -80,
+                    scrollTrigger: {
+                        trigger: '.hero-content-section',
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: true,
+                    }
+                });
+            }
+
+            // Info cards scroll-in animation
+            gsap.utils.toArray('.info-card').forEach((card) => {
+                gsap.fromTo(card, 
+                    { opacity: 0, y: 60 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 85%',
+                            toggleActions: 'play none none none',
+                        }
+                    }
+                );
+            });
+        } else {
+            // Fallback: vanilla scroll listener
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                let scrollFraction = maxScroll > 0 ? scrollTop / maxScroll : 0;
+                scrollFraction = Math.max(0, Math.min(1, scrollFraction));
+                const idx = Math.min(oceanFramesCount - 1, Math.floor(scrollFraction * oceanFramesCount));
+                requestAnimationFrame(() => {
+                    if (oceanImages[idx]) drawFrame(oceanCtx, oceanImages[idx], oceanCanvas);
+                });
+            });
+        }
     }
 
-    // --- SHIPYARD CARD CANVAS SCROLL SEQUENCE ---
+    // --- SHIPYARD CARD CANVAS SCROLL SEQUENCE (GSAP powered) ---
     const shipyardCanvas = document.getElementById('shipyardCanvas');
     if (shipyardCanvas) {
         const shipCtx = shipyardCanvas.getContext('2d');
         const shipFramesCount = 90;
         const shipImages = [];
+        let currentShipFrame = { value: 0 };
         
         for (let i = 1; i <= shipFramesCount; i++) {
             const img = new Image();
@@ -195,33 +258,33 @@ document.addEventListener('DOMContentLoaded', () => {
             const hRatio = shipyardCanvas.width / img.width;
             const vRatio = shipyardCanvas.height / img.height;
             const ratio = Math.max(hRatio, vRatio);
-            const centerShift_x = (shipyardCanvas.width - img.width * ratio) / 2;
-            const centerShift_y = (shipyardCanvas.height - img.height * ratio) / 2;
-            
+            const cx = (shipyardCanvas.width - img.width * ratio) / 2;
+            const cy = (shipyardCanvas.height - img.height * ratio) / 2;
             shipCtx.clearRect(0, 0, shipyardCanvas.width, shipyardCanvas.height);
-            shipCtx.drawImage(img, 0, 0, img.width, img.height,
-                          centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+            shipCtx.drawImage(img, 0, 0, img.width, img.height, cx, cy, img.width * ratio, img.height * ratio);
         }
 
         Promise.all([
             new Promise(res => { shipImages[0].onload = res; if(shipImages[0].complete) res(); })
-        ]).then(() => {
-            drawShipFrame(shipImages[0]);
-        });
+        ]).then(() => drawShipFrame(shipImages[0]));
 
-        window.addEventListener('scroll', () => {
-            const rect = shipyardCanvas.getBoundingClientRect();
-            const totalScrollDistance = window.innerHeight + rect.height;
-            let fraction = (window.innerHeight - rect.top) / totalScrollDistance;
-            fraction = Math.max(0, Math.min(1, fraction));
-
-            const frameIndex = Math.min(shipFramesCount - 1, Math.floor(fraction * shipFramesCount));
-            if (shipImages[frameIndex]) {
-                requestAnimationFrame(() => {
-                    drawShipFrame(shipImages[frameIndex]);
-                });
-            }
-        });
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.to(currentShipFrame, {
+                value: shipFramesCount - 1,
+                snap: 'value',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: shipyardCanvas,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 0.3,
+                },
+                onUpdate: () => {
+                    const idx = Math.round(currentShipFrame.value);
+                    if (shipImages[idx]) drawShipFrame(shipImages[idx]);
+                }
+            });
+        }
     }
 
     // Search Redirection Logic
