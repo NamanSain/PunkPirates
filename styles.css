@@ -326,6 +326,7 @@ a {
 .sequence-overlay .search-box {
     pointer-events: auto;
     margin: 0 auto;
+    max-width: 600px;
 }
 
 /* Info Sections */
