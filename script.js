@@ -169,11 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const overlay = document.querySelector('.sequence-overlay');
         
         window.addEventListener('scroll', () => {
-            const rect = scrollSequence.getBoundingClientRect();
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            
             let scrollFraction = 0;
-            if (rect.top <= 0) {
-                const maxScroll = scrollSequence.offsetHeight - window.innerHeight;
-                scrollFraction = -rect.top / maxScroll;
+            if (maxScroll > 0) {
+                scrollFraction = scrollTop / maxScroll;
             }
             
             scrollFraction = Math.max(0, Math.min(1, scrollFraction));
@@ -184,15 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(() => {
                 if (oceanImages[oceanFrameIndex]) drawFrame(oceanCtx, oceanImages[oceanFrameIndex], oceanCanvas);
                 if (shipImages[shipFrameIndex]) drawFrame(shipCtx, shipImages[shipFrameIndex], shipCanvas);
-                
-                if (scrollFraction > 0.05 && scrollFraction < 0.9) {
-                    overlay.style.opacity = Math.min(1, (scrollFraction - 0.05) * 5);
-                    overlay.style.transform = `translate(-50%, calc(-50% - ${scrollFraction * 50}px))`;
-                } else if (scrollFraction >= 0.9) {
-                    overlay.style.opacity = Math.max(0, 1 - (scrollFraction - 0.9) * 10);
-                } else {
-                    overlay.style.opacity = 0;
-                }
             });
         });
     }
